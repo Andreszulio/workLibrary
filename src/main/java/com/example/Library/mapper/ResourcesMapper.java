@@ -14,6 +14,7 @@ public class ResourcesMapper {
         Resources resources = new Resources();
         resources.setResourceId(resourcesDTO.getResourceId());
         resources.setTypeOfResource(resourcesDTO.getTypeOfResource());
+        resources.setTypeOfThematic(resourcesDTO.getTypeOfThematic());
         resources.setAvailable(resourcesDTO.getAvailable());
         resources.setLoanDate(resourcesDTO.getLoanDate());
         return resources;
@@ -23,6 +24,7 @@ public class ResourcesMapper {
         ResourcesDTO resourcesDTO = new ResourcesDTO();
         resourcesDTO.setResourceId(resources.getResourceId());
         resourcesDTO.setTypeOfResource(resources.getTypeOfResource());
+        resourcesDTO.setTypeOfThematic(resources.getTypeOfThematic());
         resourcesDTO.setAvailable(resources.getAvailable());
         resourcesDTO.setLoanDate(resources.getLoanDate());
         return resourcesDTO;

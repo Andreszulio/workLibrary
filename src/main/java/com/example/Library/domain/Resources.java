@@ -3,16 +3,15 @@ package com.example.Library.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-
 @Document(collection = "Resource")
 public class Resources {
 
     @Id
     private String resourceId;
     private String typeOfResource;
+    private String typeOfThematic;
     private Boolean isAvailable;
-    private LocalDateTime loanDate;
+    private String loanDate;
 
     public String getResourceId() {
         return resourceId;
@@ -30,6 +29,14 @@ public class Resources {
         this.typeOfResource = typeOfResource;
     }
 
+    public String getTypeOfThematic() {
+        return typeOfThematic;
+    }
+
+    public void setTypeOfThematic(String typeOfThematic) {
+        this.typeOfThematic = typeOfThematic;
+    }
+
     public Boolean getAvailable() {
         return isAvailable;
     }
@@ -38,11 +45,11 @@ public class Resources {
         isAvailable = available;
     }
 
-    public LocalDateTime getLoanDate() {
+    public String getLoanDate() {
         return loanDate;
     }
 
-    public void setLoanDate(LocalDateTime loanDate) {
+    public void setLoanDate(String loanDate) {
         this.loanDate = loanDate;
     }
 }

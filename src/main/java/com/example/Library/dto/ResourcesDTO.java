@@ -6,8 +6,9 @@ public class ResourcesDTO {
 
     private String resourceId;
     private String typeOfResource;
+    private String typeOfThematic;
     private Boolean isAvailable;
-    private LocalDateTime loanDate;
+    private String loanDate;
 
     public ResourcesDTO(){
 
@@ -29,6 +30,14 @@ public class ResourcesDTO {
         this.typeOfResource = typeOfResource;
     }
 
+    public String getTypeOfThematic() {
+        return typeOfThematic;
+    }
+
+    public void setTypeOfThematic(String typeOfThematic) {
+        this.typeOfThematic = typeOfThematic;
+    }
+
     public Boolean getAvailable() {
         return isAvailable;
     }
@@ -37,11 +46,11 @@ public class ResourcesDTO {
         isAvailable = available;
     }
 
-    public LocalDateTime getLoanDate() {
+    public String getLoanDate() {
         return loanDate;
     }
 
-    public void setLoanDate(LocalDateTime loanDate) {
+    public void setLoanDate(String loanDate) {
         this.loanDate = loanDate;
     }
 }
