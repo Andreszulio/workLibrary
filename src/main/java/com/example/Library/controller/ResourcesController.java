@@ -45,16 +45,15 @@ public class ResourcesController {
             resourceService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e){
-            //System.out.print(e.getMessage());
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping("/provideResource/{id}")
+    /*@PutMapping("/provideResource/{id}")
     public ResponseEntity<ResourcesDTO> provideResource(@PathVariable("id") String id){
         try {
             resourceService.findById(id);
             return new ResponseEntity(HttpStatus.OK);
         }
-    }
+    }*/
 }

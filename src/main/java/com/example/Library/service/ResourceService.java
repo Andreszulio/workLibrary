@@ -7,10 +7,16 @@ import com.example.Library.repository.ResourcesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class ResourceService {
+
+    private Date objDate = new Date();
+    private String strDateFormat = "hh: mm: ss a dd-MMM-aaaa";
+    private SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat);
 
     @Autowired
     private ResourcesRepository resourcesRepository;
@@ -44,10 +50,32 @@ public class ResourceService {
         resourcesRepository.deleteById(id);
     }
 
-    public ResourcesDTO provide(ResourcesDTO resourcesDTO){
-        Resources resources = resourcesMapper.fromDTO(resourcesDTO);
-        resourcesRepository.findById(resources.getResourceId()).orElseThrow(()
-                        -> new RuntimeException("El recurso se encuentra vacío, no se puede prestar"));
+    public String provide(String id, String userId){
+        Resources resources = resourcesRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("No se encontró el recurso"));
+        if (resources.getAvailable()){
+            resources.setAvailable(Boolean.FALSE);
+            resources.setLoanDate(objSDF.format(objDate));
+            resources.setUserId(userId);
+            resourcesRepository.save(resources);
+            return "Prestamo confirmado";
+        }else {
+            return "El recurso ya está prestado";
+        }
+    }
+
+    public String returnResource(String id){
+        Resources resources = resourcesRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("No se encontró el recurso"));
+        if (resources.getAvailable()){
+            return "El recurso no se encuentra en préstamo, por lo tanto no podrá ser devuelto";
+        }else {
+            resources.setAvailable(Boolean.TRUE);
+            resources.setLoanDate(objSDF.format(objDate));
+            resources.setUserId(null);
+            resourcesRepository.save(resources);
+            return "Recurso devuelto exitosamente";
+        }
     }
 
     public List<ResourcesDTO> findByType(String type){
@@ -59,9 +87,15 @@ public class ResourceService {
         List<Resources> resources = (List<Resources>) resourcesRepository.findByThematic(thematic);
         return resourcesMapper.fromEntityList(resources);
     }
-    
-    /*public Iterable<Resources> findByType(String type){
-        return resourcesRepository.(type);
+
+    public String checkAvilability(String id){
+        Resources resources = resourcesRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("No se encontró el recurso"));
+        if (resources.getAvailable()){
+            return "Recurso disponible";
+        }else {
+            return "Recurso no disponible "+resources.getLoanDate();
+        }
     }
-    */
+
 }

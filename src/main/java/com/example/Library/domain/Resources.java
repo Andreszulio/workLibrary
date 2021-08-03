@@ -12,6 +12,7 @@ public class Resources {
     private String typeOfThematic;
     private Boolean isAvailable;
     private String loanDate;
+    private String userId;
 
     public String getResourceId() {
         return resourceId;
@@ -51,5 +52,13 @@ public class Resources {
 
     public void setLoanDate(String loanDate) {
         this.loanDate = loanDate;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
