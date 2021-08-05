@@ -29,12 +29,12 @@ public class ResourceService {
         return resourcesMapper.fromEntityList(resources);
     }
 
-    public String findById(String id){
+    public ResourcesDTO findById(String id){
         Optional<Resources> resources = resourcesRepository.findById(id);
-        if (resources.get().getAvailable()==true){
-            return "recurso disponible";
+        if (resourcesRepository.existsById(id)){
+            return resourcesMapper.fromEntity(resources.get());
         }else {
-            return "no disponible";
+            throw  new IllegalArgumentException("No existe");
         }
     }
 
@@ -83,14 +83,14 @@ public class ResourceService {
     }
 
     public List<ResourcesDTO> findByType(String type){
-        System.out.println(resourcesRepository.findTypeOfResource("Book").size());
-        return resourcesMapper.fromEntityList(resourcesRepository.findTypeOfResource("Book"));
-
+        List<Resources> resources = (List<Resources>) resourcesRepository.findByTypeOfResource(type);
+        //System.out.println("Object "+resources+"\nName: "/*resources.get(0).getTypeOfResource()+"\nThematic: "+resources.get(0).getTypeOfThematic()*/);
+        return resourcesMapper.fromEntityList(resources);
     }
 
     public List<ResourcesDTO> findByThematic(String thematic){
-        List<Resources> resources = (List<Resources>) resourcesRepository.findTypeOfThematic(thematic);
-        System.out.println(resources);
+        List<Resources> resources = (List<Resources>) resourcesRepository.findByTypeOfThematic(thematic);
+        //System.out.println(resources);
         return resourcesMapper.fromEntityList(resources);
     }
 

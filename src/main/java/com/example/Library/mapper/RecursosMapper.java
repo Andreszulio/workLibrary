@@ -2,11 +2,14 @@ package com.example.Library.mapper;
 
 import com.example.Library.domain.Resources;
 import com.example.Library.dto.ResourcesDTO;
+import com.example.Library.repository.ResourcesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class RecursosMapper {
 

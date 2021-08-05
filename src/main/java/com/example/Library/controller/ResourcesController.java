@@ -1,5 +1,6 @@
 package com.example.Library.controller;
 
+import com.example.Library.domain.Resources;
 import com.example.Library.dto.ResourcesDTO;
 import com.example.Library.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ResourcesController {
     }
 
     @GetMapping("/findResource/{id}")
-    public String findById(@PathVariable("id")String id){
+    public ResourcesDTO findById(@PathVariable("id")String id){
         return resourceService.findById(id);
     }
 
@@ -60,17 +61,17 @@ public class ResourcesController {
     }
 
     @GetMapping("/findByType/{type}")
-    public ResponseEntity<List<ResourcesDTO>> findByType(String type){
+    public ResponseEntity<List<ResourcesDTO>> findByType(@PathVariable("type") String type){
         return new ResponseEntity(resourceService.findByType(type), HttpStatus.OK);
     }
 
     @GetMapping("/findByThematic/{thematic}")
-    public ResponseEntity<List<ResourcesDTO>> findByThematic(String thematic){
+    public ResponseEntity<List<ResourcesDTO>> findByThematic(@PathVariable("thematic") String thematic){
         return new ResponseEntity(resourceService.findByThematic(thematic), HttpStatus.OK);
     }
 
     @GetMapping("/checkAvilability/{id}")
-    public ResponseEntity<ResourcesDTO> checkAvilability(String id){
+    public ResponseEntity<ResourcesDTO> checkAvilability(@PathVariable("id") String id){
         return new ResponseEntity(resourceService.checkAvilability(id), HttpStatus.OK);
     }
 
