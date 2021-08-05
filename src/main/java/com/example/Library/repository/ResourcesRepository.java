@@ -3,7 +3,9 @@ package com.example.Library.repository;
 import com.example.Library.domain.Resources;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+
 public interface ResourcesRepository extends MongoRepository<Resources, String> {
-    Iterable<Resources> findByType(String type);
-    Iterable<Resources> findByThematic(String thematic);
+    List<Resources> findTypeOfResource(String type);
+    List<Resources> findTypeOfThematic(String thematic);
 }

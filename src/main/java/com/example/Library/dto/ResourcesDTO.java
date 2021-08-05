@@ -1,7 +1,5 @@
 package com.example.Library.dto;
 
-import java.time.LocalDateTime;
-
 public class ResourcesDTO {
 
     private String resourceId;
@@ -9,6 +7,7 @@ public class ResourcesDTO {
     private String typeOfThematic;
     private Boolean isAvailable;
     private String loanDate;
+    private String userId;
 
     public ResourcesDTO(){
 
@@ -52,5 +51,13 @@ public class ResourcesDTO {
 
     public void setLoanDate(String loanDate) {
         this.loanDate = loanDate;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -2,7 +2,7 @@ package com.example.Library.service;
 
 import com.example.Library.domain.Resources;
 import com.example.Library.dto.ResourcesDTO;
-import com.example.Library.mapper.ResourcesMapper;
+import com.example.Library.mapper.RecursosMapper;
 import com.example.Library.repository.ResourcesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ResourceService {
@@ -21,17 +22,20 @@ public class ResourceService {
     @Autowired
     private ResourcesRepository resourcesRepository;
 
-    ResourcesMapper resourcesMapper = new ResourcesMapper();
+    RecursosMapper resourcesMapper = new RecursosMapper();
 
     public List<ResourcesDTO> findAll(){
         List<Resources> resources = (List<Resources>) resourcesRepository.findAll();
         return resourcesMapper.fromEntityList(resources);
     }
 
-    public ResourcesDTO findById(String id){
-        Resources resources = resourcesRepository.findById(id).orElseThrow(()
-                -> new RuntimeException("El recurso se encuentra vacío"));
-        return resourcesMapper.fromEntity(resources);
+    public String findById(String id){
+        Optional<Resources> resources = resourcesRepository.findById(id);
+        if (resources.get().getAvailable()==true){
+            return "recurso disponible";
+        }else {
+            return "no disponible";
+        }
     }
 
     public ResourcesDTO create(ResourcesDTO resourcesDTO){
@@ -79,12 +83,14 @@ public class ResourceService {
     }
 
     public List<ResourcesDTO> findByType(String type){
-        List<Resources> resources = (List<Resources>) resourcesRepository.findByType(type);
-        return resourcesMapper.fromEntityList(resources);
+        System.out.println(resourcesRepository.findTypeOfResource("Book").size());
+        return resourcesMapper.fromEntityList(resourcesRepository.findTypeOfResource("Book"));
+
     }
 
     public List<ResourcesDTO> findByThematic(String thematic){
-        List<Resources> resources = (List<Resources>) resourcesRepository.findByThematic(thematic);
+        List<Resources> resources = (List<Resources>) resourcesRepository.findTypeOfThematic(thematic);
+        System.out.println(resources);
         return resourcesMapper.fromEntityList(resources);
     }
 

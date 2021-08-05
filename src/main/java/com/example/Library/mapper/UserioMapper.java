@@ -1,15 +1,13 @@
 package com.example.Library.mapper;
 
-import com.example.Library.domain.Resources;
 import com.example.Library.domain.User;
-import com.example.Library.dto.ResourcesDTO;
 import com.example.Library.dto.UserDTO;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class UserMapper {
+public class UserioMapper {
 
     public User fromDTO(UserDTO userDTO){
         User user = new User();

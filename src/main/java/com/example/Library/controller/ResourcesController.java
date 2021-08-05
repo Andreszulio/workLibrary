@@ -22,8 +22,8 @@ public class ResourcesController {
     }
 
     @GetMapping("/findResource/{id}")
-    public ResponseEntity<ResourcesDTO> findById(@PathVariable("id")String id){
-        return new ResponseEntity(resourceService.findById(id), HttpStatus.OK);
+    public String findById(@PathVariable("id")String id){
+        return resourceService.findById(id);
     }
 
     @GetMapping("/findAllResources")
@@ -49,11 +49,29 @@ public class ResourcesController {
         }
     }
 
-    /*@PutMapping("/provideResource/{id}")
-    public ResponseEntity<ResourcesDTO> provideResource(@PathVariable("id") String id){
-        try {
-            resourceService.findById(id);
-            return new ResponseEntity(HttpStatus.OK);
-        }
-    }*/
+    @PutMapping("/provide/{id}/{userId}")
+    public ResponseEntity provide(@PathVariable("id")String id, @PathVariable("userId") String userId) {
+        return new ResponseEntity(resourceService.provide(id,userId), HttpStatus.OK);
+    }
+
+    @PutMapping("/returnResource/{id}")
+    public ResponseEntity returnResource(@PathVariable("id")String id) {
+        return new ResponseEntity(resourceService.returnResource(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByType/{type}")
+    public ResponseEntity<List<ResourcesDTO>> findByType(String type){
+        return new ResponseEntity(resourceService.findByType(type), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByThematic/{thematic}")
+    public ResponseEntity<List<ResourcesDTO>> findByThematic(String thematic){
+        return new ResponseEntity(resourceService.findByThematic(thematic), HttpStatus.OK);
+    }
+
+    @GetMapping("/checkAvilability/{id}")
+    public ResponseEntity<ResourcesDTO> checkAvilability(String id){
+        return new ResponseEntity(resourceService.checkAvilability(id), HttpStatus.OK);
+    }
+
 }

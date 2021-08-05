@@ -2,7 +2,7 @@ package com.example.Library.service;
 
 import com.example.Library.domain.User;
 import com.example.Library.dto.UserDTO;
-import com.example.Library.mapper.UserMapper;
+import com.example.Library.mapper.UserioMapper;
 import com.example.Library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    UserMapper userMapper = new UserMapper();
+    UserioMapper userMapper = new UserioMapper();
     public List<UserDTO> findAll(){
         List<User> users = (List<User>) userRepository.findAll();
         return userMapper.fromEntityList(users);
