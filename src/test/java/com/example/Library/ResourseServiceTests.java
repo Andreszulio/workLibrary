@@ -115,8 +115,6 @@ public class ResourseServiceTests {
         resource.setResourceId("1");
         resource.setAvailable(Boolean.TRUE);
 
-        //Mockito.when(resourcesRepository.findById("1")).thenReturn(Optional.of(resource));
-
         Mockito.doNothing().when(resourcesRepository).deleteById("1");
 
         resourceService.delete("1");
@@ -146,15 +144,11 @@ public class ResourseServiceTests {
 
         Mockito.when(resourcesRepository.findById(anyString())).thenReturn(Optional.of(resource1));
 
-        //Mockito.when(recursosMapper.fromDTO(resource2)).thenReturn(resource1);
-
-        Mockito.when(recursosMapper.fromEntity(any())).thenReturn(resource2);
-
-        Mockito.when(resourcesRepository.save(any())).thenReturn(resource1);
+        Mockito.when(resourcesRepository.save(any(Resources.class))).thenReturn(resource1);
 
         ResourcesDTO find = resourceService.modify(resource2);
 
-        Assertions.assertEquals(resource2.getResourceId(),find);
+        Assertions.assertEquals(resource2.getResourceId(),find.getResourceId());
 
     }
 
@@ -163,16 +157,7 @@ public class ResourseServiceTests {
         var resource = new Resources();
         resource.setResourceId("6");
 
-        //Mockito.when(resourcesRepository.save(resource)).thenReturn(resource);
-
         Mockito.when(resourcesRepository.existsById("6")).thenReturn(true);
-
-        //Mockito.verify(resourcesRepository).existsById("6");
-
-
-        //Mockito.verify(resourcesRepository).save(resource);
-
-
 
         Mockito.when(resourcesRepository.findById("6")).thenReturn(Optional.of(resource));
 
@@ -196,14 +181,124 @@ public class ResourseServiceTests {
 
         Mockito.when(resourcesRepository.findById("456")).thenReturn(Optional.of(resource));
 
-        //Mockito.verify(resourcesRepository).findById("456");
-
-        //Mockito.when(resourcesRepository.save(resource)).thenReturn(resource);
-
         String find = resourceService.provide("456","123");
 
         Assertions.assertEquals("Prestamo confirmado",find);
 
+    }
+
+    @Test
+    void returnProvide(){
+
+        var resource = new Resources();
+        resource.setResourceId("456");
+        resource.setTypeOfResource("Maganize");
+        resource.setTypeOfThematic("Science");
+        resource.setAvailable(Boolean.TRUE);
+        resource.setLoanDate(objSDF.format(objDate));
+        resource.setUserId("123");
+
+        Mockito.when(resourcesRepository.findById("456")).thenReturn(Optional.of(resource));
+
+        String find = resourceService.returnResource("456");
+
+        Assertions.assertEquals("El recurso no se encuentra en préstamo, por lo tanto no podrá ser devuelto",find);
+
+    }
+
+    @Test
+    void findByType(){
+
+        var resource1 = new Resources();
+        resource1.setResourceId("456");
+        resource1.setTypeOfResource("Maganize");
+        resource1.setTypeOfThematic("Science");
+        resource1.setAvailable(Boolean.TRUE);
+        resource1.setLoanDate(objSDF.format(objDate));
+        resource1.setUserId("123");
+
+        var resource2 = new Resources();
+        resource2.setResourceId("123");
+        resource2.setTypeOfResource("Book");
+        resource2.setTypeOfThematic("Math");
+        resource2.setAvailable(Boolean.TRUE);
+        resource2.setLoanDate(objSDF.format(objDate));
+        resource2.setUserId("1027");
+
+        var resource3 = new Resources();
+        resource3.setResourceId("789");
+        resource3.setTypeOfResource("Book");
+        resource3.setTypeOfThematic("Math");
+        resource3.setAvailable(Boolean.TRUE);
+        resource3.setLoanDate(objSDF.format(objDate));
+        resource3.setUserId("71612");
+
+        var lista = new ArrayList<Resources>();
+        lista.add(resource1);
+        lista.add(resource2);
+        lista.add(resource3);
+        Mockito.when(resourcesRepository.findByTypeOfResource(anyString())).thenReturn(lista);
+
+        var respuesta = resourceService.findByType(anyString());
+
+        Assertions.assertEquals(3,respuesta.size());
+        Assertions.assertEquals(resource1.getTypeOfResource(),respuesta.get(0).getTypeOfResource());
+        Assertions.assertEquals(resource2.getTypeOfResource(),respuesta.get(1).getTypeOfResource());
+        Assertions.assertEquals(resource3.getTypeOfResource(),respuesta.get(2).getTypeOfResource());
+    }
+
+    @Test
+    void findByThematic(){
+
+        var resource1 = new Resources();
+        resource1.setResourceId("456");
+        resource1.setTypeOfResource("Maganize");
+        resource1.setTypeOfThematic("Science");
+        resource1.setAvailable(Boolean.TRUE);
+        resource1.setLoanDate(objSDF.format(objDate));
+        resource1.setUserId("123");
+
+        var resource2 = new Resources();
+        resource2.setResourceId("123");
+        resource2.setTypeOfResource("Book");
+        resource2.setTypeOfThematic("Math");
+        resource2.setAvailable(Boolean.TRUE);
+        resource2.setLoanDate(objSDF.format(objDate));
+        resource2.setUserId("1027");
+
+        var resource3 = new Resources();
+        resource3.setResourceId("789");
+        resource3.setTypeOfResource("Book");
+        resource3.setTypeOfThematic("Math");
+        resource3.setAvailable(Boolean.TRUE);
+        resource3.setLoanDate(objSDF.format(objDate));
+        resource3.setUserId("71612");
+
+        var lista = new ArrayList<Resources>();
+        lista.add(resource1);
+        lista.add(resource2);
+        lista.add(resource3);
+        Mockito.when(resourcesRepository.findByTypeOfThematic(anyString())).thenReturn(lista);
+
+        var respuesta = resourceService.findByThematic(anyString());
+
+        Assertions.assertEquals(3,respuesta.size());
+        Assertions.assertEquals(resource1.getTypeOfThematic(),respuesta.get(0).getTypeOfThematic());
+        Assertions.assertEquals(resource2.getTypeOfThematic(),respuesta.get(1).getTypeOfThematic());
+        Assertions.assertEquals(resource3.getTypeOfThematic(),respuesta.get(2).getTypeOfThematic());
+    }
+
+    @Test
+    void checkAvilability(){
+        var resource = new Resources();
+        resource.setResourceId("6");
+        resource.setAvailable(true);
+
+        Mockito.when(resourcesRepository.findById(anyString())).thenReturn(Optional.of(resource));
+
+        String find = resourceService.checkAvilability(anyString());
+
+        Assertions.assertEquals("Recurso disponible",find);
     }
 
 }
