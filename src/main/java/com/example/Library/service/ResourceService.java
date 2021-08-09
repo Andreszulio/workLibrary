@@ -45,7 +45,7 @@ public class ResourceService {
 
     public ResourcesDTO modify(ResourcesDTO resourcesDTO){
         Resources resources = resourcesMapper.fromDTO(resourcesDTO);
-        resourcesRepository.findById(resources.getResourceId()).orElseThrow(()
+        resourcesRepository.findById(resourcesDTO.getResourceId()).orElseThrow(()
                 -> new RuntimeException("El recurso se encuentra vacío"));
         return resourcesMapper.fromEntity(resourcesRepository.save(resources));
     }
@@ -84,13 +84,11 @@ public class ResourceService {
 
     public List<ResourcesDTO> findByType(String type){
         List<Resources> resources = (List<Resources>) resourcesRepository.findByTypeOfResource(type);
-        //System.out.println("Object "+resources+"\nName: "/*resources.get(0).getTypeOfResource()+"\nThematic: "+resources.get(0).getTypeOfThematic()*/);
         return resourcesMapper.fromEntityList(resources);
     }
 
     public List<ResourcesDTO> findByThematic(String thematic){
         List<Resources> resources = (List<Resources>) resourcesRepository.findByTypeOfThematic(thematic);
-        //System.out.println(resources);
         return resourcesMapper.fromEntityList(resources);
     }
 
